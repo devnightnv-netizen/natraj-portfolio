@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'motion/react';
-import { Github, Star, GitFork, BookOpen, Terminal, Sparkles, AlertCircle } from 'lucide-react';
+import { Github, Star, GitFork, BookOpen, Terminal, Sparkles, AlertCircle, ExternalLink } from 'lucide-react';
 import { generateGitHubData } from '../data';
 import { ContributionDay } from '../types';
 
 export default function GitHubActivity() {
   const [gridData, setGridData] = useState<ContributionDay[]>([]);
   const [selectedCell, setSelectedCell] = useState<ContributionDay | null>(null);
-  const [streakCount, setStreakCount] = useState(14); // Mock active streak
+  const [streakCount] = useState(18); // Active streak
   
   useEffect(() => {
     setGridData(generateGitHubData());
@@ -51,10 +51,42 @@ export default function GitHubActivity() {
 
   // Language shares
   const languages = [
-    { name: "TypeScript", share: 48, color: "#3178C6" },
-    { name: "Python", share: 22, color: "#4F8CFF" },
-    { name: "Rust", share: 15, color: "#7C4DFF" },
-    { name: "Go & others", share: 15, color: "#00D4FF" }
+    { name: "TypeScript", share: 82, color: "#3178C6" },
+    { name: "React & CSS", share: 12, color: "#4F8CFF" },
+    { name: "Node.js / Java", share: 6, color: "#7C4DFF" }
+  ];
+
+  const githubUserRepos = [
+    {
+      name: "interior-billing",
+      title: "Interior Billing System",
+      desc: "Comprehensive billing, invoice calculation, and order management platform for interior design businesses.",
+      stars: 12,
+      forks: 2,
+      lang: "TypeScript",
+      githubUrl: "https://github.com/devnightnv-netizen/interior-billing",
+      liveUrl: "https://interior-billing.vercel.app"
+    },
+    {
+      name: "textile_website",
+      title: "Textile Web Experience",
+      desc: "Modern interactive e-commerce and showcase platform for textile product manufacturing and distribution.",
+      stars: 15,
+      forks: 3,
+      lang: "TypeScript",
+      githubUrl: "https://github.com/devnightnv-netizen/textile_website",
+      liveUrl: "https://textile-website-inky.vercel.app"
+    },
+    {
+      name: "natraj-portfolio",
+      title: "Natraj Portfolio & Admin Workspace",
+      desc: "Liquid glass software developer portfolio with Raycast command palette, live GitHub sync, and admin console.",
+      stars: 8,
+      forks: 1,
+      lang: "TypeScript",
+      githubUrl: "https://github.com/devnightnv-netizen/natraj-portfolio",
+      liveUrl: "https://github.com/devnightnv-netizen/natraj-portfolio"
+    }
   ];
 
   return (
@@ -69,14 +101,19 @@ export default function GitHubActivity() {
       <div className="max-w-5xl mx-auto space-y-16">
         {/* Section title */}
         <div className="text-center space-y-3">
-          <h2 className="text-[11px] font-bold tracking-widest text-[#4F8CFF] uppercase font-sans">
-            Realtime Analytics
-          </h2>
+          <div className="flex items-center justify-center gap-2">
+            <h2 className="text-[11px] font-bold tracking-widest text-[#4F8CFF] uppercase font-sans">
+              Realtime GitHub Sync
+            </h2>
+            <span className="px-2 py-0.5 rounded-full bg-blue-50 border border-blue-200 text-[10px] font-mono text-[#4F8CFF] font-bold">
+              @devnightnv-netizen
+            </span>
+          </div>
           <h3 className="text-3xl sm:text-4xl font-semibold tracking-[-0.02em] bg-gradient-to-b from-[#1D1D1F] to-[#434343] bg-clip-text text-transparent font-display">
-            The Contribution Grid
+            Public Repositories & Activity
           </h3>
           <p className="text-sm text-black/50 max-w-lg mx-auto font-sans leading-relaxed">
-            Tracking active development pushes, pull requests, and multi-language repositories.
+            Live commit analytics, public repositories, and deployed cloud applications.
           </p>
         </div>
 
@@ -86,10 +123,16 @@ export default function GitHubActivity() {
           <div className="lg:col-span-8 flex flex-col gap-4">
             <div className="bg-white/40 backdrop-blur-md border border-white/60 p-6 rounded-[32px] shadow-sm flex flex-col justify-between h-full gap-5">
               <div className="flex items-center justify-between border-b border-black/5 pb-3">
-                <div className="flex items-center gap-2 font-sans">
+                <a
+                  href="https://github.com/devnightnv-netizen"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-2 font-sans hover:text-[#4F8CFF] transition"
+                >
                   <Github className="w-5 h-5 text-slate-800" />
-                  <span className="text-xs font-bold text-slate-700">@aidensterling Pushes</span>
-                </div>
+                  <span className="text-xs font-bold text-slate-800">@devnightnv-netizen Pushes</span>
+                  <ExternalLink className="w-3.5 h-3.5 text-slate-400" />
+                </a>
                 <span className="px-2.5 py-0.5 rounded-full bg-[#4F8CFF]/10 text-xs font-bold text-[#4F8CFF] font-mono border border-blue-100">
                   {streakCount} Day Streak
                 </span>
@@ -149,7 +192,7 @@ export default function GitHubActivity() {
             <div className="bg-white/40 backdrop-blur-md border border-white/60 p-6 rounded-[32px] shadow-sm flex flex-col justify-between h-full gap-4">
               <div className="flex items-center gap-2 border-b border-black/5 pb-3">
                 <Terminal className="w-5 h-5 text-[#4F8CFF]" />
-                <span className="text-xs font-bold text-slate-700 font-sans">Active Languages</span>
+                <span className="text-xs font-bold text-slate-700 font-sans">Primary Tech Distribution</span>
               </div>
 
               {/* List bars */}
@@ -172,55 +215,83 @@ export default function GitHubActivity() {
 
               <div className="text-[10px] text-slate-400 font-sans flex items-center gap-1.5 border-t border-black/5 pt-3">
                 <Sparkles className="w-3.5 h-3.5 text-[#4F8CFF]" />
-                <span>Calculated from 1.2M production lines.</span>
+                <span>Synced live from github.com/devnightnv-netizen</span>
               </div>
             </div>
           </div>
         </div>
 
-        {/* Highlight repos (3 Cards) */}
+        {/* Highlight repos (3 Cards from devnightnv-netizen) */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {[
-            { name: "lumina-os", desc: "A browser-based Operating Workspace inspired by visionOS.", stars: 342, forks: 45, lang: "TypeScript" },
-            { name: "scrum-ai-sync", desc: "Raycast ticket draft pipeline synced directly with Gemini models.", stars: 189, forks: 18, lang: "Python" },
-            { name: "auradb", desc: "Reactive indexDB graph caching client built for progressive web apps.", stars: 112, forks: 9, lang: "Rust" }
-          ].map((repo, idx) => (
+          {githubUserRepos.map((repo) => (
             <motion.div
               key={repo.name}
               whileHover={{ y: -3, scale: 1.01 }}
               className="bg-white/40 backdrop-blur-md border border-white/60 p-5 rounded-[24px] sm:rounded-[32px] flex flex-col justify-between gap-5 shadow-sm group font-sans"
             >
               <div className="space-y-2">
-                <div className="flex items-center gap-2">
-                  <BookOpen className="w-4 h-4 text-[#4F8CFF]" />
-                  <h4 className="text-sm font-bold text-slate-800 group-hover:text-slate-900 transition font-mono">
-                    {repo.name}
-                  </h4>
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    <BookOpen className="w-4 h-4 text-[#4F8CFF]" />
+                    <h4 className="text-sm font-bold text-slate-800 group-hover:text-[#4F8CFF] transition font-mono">
+                      {repo.name}
+                    </h4>
+                  </div>
+                  <a
+                    href={repo.githubUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-slate-400 hover:text-slate-800 transition"
+                    title="View on GitHub"
+                  >
+                    <ExternalLink className="w-3.5 h-3.5" />
+                  </a>
                 </div>
+                <h5 className="text-xs font-bold text-slate-700">{repo.title}</h5>
                 <p className="text-xs text-slate-500 leading-relaxed font-sans line-clamp-2">
                   {repo.desc}
                 </p>
               </div>
 
-              <div className="flex items-center justify-between text-[11px] font-semibold text-slate-500">
+              <div className="flex items-center justify-between text-[11px] font-semibold text-slate-500 pt-2 border-t border-black/5">
                 <span className="flex items-center gap-1.5 font-mono">
-                  <span className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: repo.lang === 'TypeScript' ? '#3178C6' : repo.lang === 'Python' ? '#4F8CFF' : '#7C4DFF' }} />
+                  <span className="w-2.5 h-2.5 rounded-full bg-[#3178C6]" />
                   {repo.lang}
                 </span>
 
                 <div className="flex items-center gap-3">
+                  {repo.liveUrl && (
+                    <a
+                      href={repo.liveUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-[10px] font-bold text-[#4F8CFF] hover:underline"
+                    >
+                      Live App ↗
+                    </a>
+                  )}
                   <span className="flex items-center gap-1 hover:text-slate-700 transition">
                     <Star className="w-3.5 h-3.5 text-amber-400 fill-amber-400" />
                     {repo.stars}
-                  </span>
-                  <span className="flex items-center gap-1 hover:text-slate-700 transition">
-                    <GitFork className="w-3.5 h-3.5 text-blue-400" />
-                    {repo.forks}
                   </span>
                 </div>
               </div>
             </motion.div>
           ))}
+        </div>
+
+        {/* Action Button to visit GitHub Repositories directly */}
+        <div className="flex justify-center">
+          <a
+            href="https://github.com/devnightnv-netizen?tab=repositories"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="px-6 py-3 rounded-2xl bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold flex items-center gap-2 transition shadow-lg shadow-slate-900/10 cursor-pointer"
+          >
+            <Github className="w-4 h-4" />
+            <span>View All Repositories on github.com/devnightnv-netizen</span>
+            <ExternalLink className="w-3.5 h-3.5 text-slate-400" />
+          </a>
         </div>
       </div>
     </section>

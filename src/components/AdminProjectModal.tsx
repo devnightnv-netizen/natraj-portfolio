@@ -47,6 +47,7 @@ import {
 } from 'lucide-react';
 import { Project, Skill, Experience } from '../types';
 import { developerProfile as defaultProfile, projectsData as defaultProjects, skillsData as defaultSkills, experienceData as defaultExperience } from '../data';
+import { fetchGitHubRepos } from '../services/github';
 
 export interface DeveloperProfile {
   name: string;
@@ -127,9 +128,37 @@ export default function AdminProjectModal({
   const [mainTab, setMainTab] = useState<'projects' | 'profile' | 'skills' | 'experience'>('projects');
 
   // Projects Tab Sub-state
-  const [projectSubTab, setProjectSubTab] = useState<'add' | 'manage'>('add');
+  const [projectSubTab, setProjectSubTab] = useState<'add' | 'manage' | 'github'>('add');
   const [editingId, setEditingId] = useState<string | null>(null);
   const [deleteConfirmId, setDeleteConfirmId] = useState<string | null>(null);
+  const [githubUsernameInput, setGithubUsernameInput] = useState('devnightnv-netizen');
+  const [isSyncingGithub, setIsSyncingGithub] = useState(false);
+
+  const handleSyncGitHubRepos = async (e?: React.FormEvent) => {
+    if (e) e.preventDefault();
+    if (!githubUsernameInput.trim()) return;
+
+    setIsSyncingGithub(true);
+    try {
+      const fetchedProjects = await fetchGitHubRepos(githubUsernameInput.trim());
+      if (fetchedProjects.length === 0) {
+        showNotification(`No public repositories found for @${githubUsernameInput}`);
+      } else {
+        const existingMap = new Map(projects.map((p) => [p.id, p]));
+        fetchedProjects.forEach((fp) => {
+          existingMap.set(fp.id, fp);
+        });
+        const updatedList = Array.from(existingMap.values());
+        onSaveProjects(updatedList);
+        showNotification(`Successfully fetched & imported ${fetchedProjects.length} GitHub repositories from @${githubUsernameInput}!`);
+      }
+    } catch (err: any) {
+      console.error('Failed to sync GitHub repos:', err);
+      showNotification(`Error: ${err.message || 'Failed to fetch GitHub repositories'}`);
+    } finally {
+      setIsSyncingGithub(false);
+    }
+  };
 
   // Project Form States
   const [title, setTitle] = useState('');
@@ -717,6 +746,18 @@ export default function AdminProjectModal({
                           <Layers className="w-3.5 h-3.5" />
                           <span>All Projects ({projects.length})</span>
                         </button>
+
+                        <button
+                          onClick={() => setProjectSubTab('github')}
+                          className={`px-4 py-2 rounded-xl text-xs font-bold flex items-center gap-1.5 transition cursor-pointer ${
+                            projectSubTab === 'github'
+                              ? 'bg-[#4F8CFF] text-white shadow-sm'
+                              : 'bg-white text-slate-600 border border-slate-200 hover:bg-slate-50'
+                          }`}
+                        >
+                          <Github className="w-3.5 h-3.5" />
+                          <span>Sync GitHub Repos (@devnightnv-netizen)</span>
+                        </button>
                       </div>
 
                       {editingId && (
@@ -939,7 +980,7 @@ export default function AdminProjectModal({
 
                         </div>
                       </form>
-                    ) : (
+                    ) : projectSubTab === 'manage' ? (
                       /* PROJECTS MANAGEMENT LIST */
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         {projects.map((proj) => (
@@ -1015,6 +1056,81 @@ export default function AdminProjectModal({
                             </div>
                           </div>
                         ))}
+                      </div>
+                    ) : (
+                      /* GITHUB ACCOUNT AUTO-SYNC PANEL */
+                      <div className="bg-white p-6 md:p-8 rounded-3xl border border-slate-200/80 shadow-xs space-y-6">
+                        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-100 pb-5">
+                          <div className="flex items-center gap-3">
+                            <div className="w-12 h-12 rounded-2xl bg-slate-900 text-white flex items-center justify-center shadow-md">
+                              <Github className="w-6 h-6" />
+                            </div>
+                            <div>
+                              <h4 className="text-base font-bold text-slate-800 font-display">
+                                GitHub Repository Auto-Sync
+                              </h4>
+                              <p className="text-xs text-slate-500 font-medium">
+                                Pull live public repositories directly from GitHub API into your portfolio
+                              </p>
+                            </div>
+                          </div>
+
+                          <a
+                            href={`https://github.com/${githubUsernameInput}?tab=repositories`}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold flex items-center gap-2 transition w-fit"
+                          >
+                            <span>Open GitHub Profile</span>
+                            <ExternalLink className="w-3.5 h-3.5" />
+                          </a>
+                        </div>
+
+                        <form onSubmit={handleSyncGitHubRepos} className="space-y-4 max-w-xl">
+                          <label className="text-xs font-bold text-slate-700 uppercase tracking-wider block">
+                            GitHub Account Handle
+                          </label>
+                          <div className="flex flex-col sm:flex-row gap-3">
+                            <div className="relative flex-1">
+                              <span className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 font-mono text-sm font-bold">@</span>
+                              <input
+                                type="text"
+                                required
+                                value={githubUsernameInput}
+                                onChange={(e) => setGithubUsernameInput(e.target.value)}
+                                placeholder="devnightnv-netizen"
+                                className="w-full pl-8 pr-3.5 py-2.5 rounded-xl bg-slate-50 border border-slate-200 text-slate-800 text-sm font-mono font-medium focus:outline-none focus:ring-2 focus:ring-[#4F8CFF]/50 focus:bg-white"
+                              />
+                            </div>
+                            <button
+                              type="submit"
+                              disabled={isSyncingGithub}
+                              className="px-6 py-2.5 rounded-xl bg-[#4F8CFF] hover:bg-blue-600 text-white text-xs font-bold transition flex items-center justify-center gap-2 shadow-md shadow-[#4F8CFF]/20 cursor-pointer disabled:opacity-50"
+                            >
+                              {isSyncingGithub ? (
+                                <>
+                                  <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                                  <span>Syncing Repos...</span>
+                                </>
+                              ) : (
+                                <>
+                                  <RefreshCw className="w-4 h-4" />
+                                  <span>Fetch & Import Repositories</span>
+                                </>
+                              )}
+                            </button>
+                          </div>
+                        </form>
+
+                        <div className="p-4 rounded-2xl bg-blue-50/60 border border-blue-100 text-xs text-slate-700 space-y-2">
+                          <div className="flex items-center gap-2 font-bold text-[#4F8CFF]">
+                            <Sparkles className="w-4 h-4" />
+                            <span>Target Account Detected: devnightnv-netizen</span>
+                          </div>
+                          <p className="text-slate-600 leading-relaxed">
+                            Includes live projects such as <strong className="text-slate-800">interior-billing</strong>, <strong className="text-slate-800">textile_website</strong>, and <strong className="text-slate-800">natraj-portfolio</strong>.
+                          </p>
+                        </div>
                       </div>
                     )}
                   </div>
