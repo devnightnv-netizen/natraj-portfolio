@@ -1121,16 +1121,6 @@ export default function AdminProjectModal({
                             </button>
                           </div>
                         </form>
-
-                        <div className="p-4 rounded-2xl bg-blue-50/60 border border-blue-100 text-xs text-slate-700 space-y-2">
-                          <div className="flex items-center gap-2 font-bold text-[#4F8CFF]">
-                            <Sparkles className="w-4 h-4" />
-                            <span>Target Account Detected: devnightnv-netizen</span>
-                          </div>
-                          <p className="text-slate-600 leading-relaxed">
-                            Includes live projects such as <strong className="text-slate-800">interior-billing</strong>, <strong className="text-slate-800">textile_website</strong>, and <strong className="text-slate-800">natraj-portfolio</strong>.
-                          </p>
-                        </div>
                       </div>
                     )}
                   </div>
