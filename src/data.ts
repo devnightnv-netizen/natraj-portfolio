@@ -8,7 +8,7 @@ export const developerProfile = {
   mission: "To leverage solid computer science fundamentals, clean database architecture, and user-centric design to build robust digital products that solve real-world problems.",
   contact: {
     whatsapp: "+91 7418715717",
-    whatsappUrl: "https://wa.me/917418715717",
+    whatsappUrl: "https://wa.me/917305997418",
     email: "devnight.nv@gmail.com",
     github: "github.com/devnightnv-netizen",
     githubUrl: "https://github.com/devnightnv-netizen",
