@@ -1,0 +1,159 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap');
+
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Space Grotesk", sans-serif;
+  
+  --color-primary: #4F8CFF;
+  --color-secondary: #7C4DFF;
+  --color-accent: #00D4FF;
+  --color-bg-light: #F7F9FC;
+  
+  --animate-float-slow: float-slow 15s ease-in-out infinite;
+  --animate-float-reverse: float-reverse 18s ease-in-out infinite;
+  --animate-aurora-slow: aurora-slow 25s ease-in-out infinite alternate;
+  --animate-pulse-slow: pulse-slow 8s ease-in-out infinite;
+  
+  @keyframes float-slow {
+    0%, 100% {
+      transform: translateY(0px) scale(1);
+    }
+    50% {
+      transform: translateY(-25px) scale(1.05);
+    }
+  }
+  @keyframes float-reverse {
+    0%, 100% {
+      transform: translateY(0px) scale(1.05);
+    }
+    50% {
+      transform: translateY(30px) scale(0.95);
+    }
+  }
+  @keyframes aurora-slow {
+    0% {
+      transform: translate(0px, 0px) rotate(0deg);
+    }
+    50% {
+      transform: translate(60px, -40px) rotate(180deg);
+    }
+    100% {
+      transform: translate(-40px, 40px) rotate(360deg);
+    }
+  }
+  @keyframes pulse-slow {
+    0%, 100% {
+      opacity: 0.4;
+    }
+    50% {
+      opacity: 0.7;
+    }
+  }
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #F7F9FC;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(124, 77, 255, 0.15);
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(124, 77, 255, 0.3);
+}
+
+/* Glassmorphism custom classes */
+.glass-panel {
+  background: rgba(255, 255, 255, 0.35);
+  backdrop-filter: blur(24px) saturate(140%);
+  -webkit-backdrop-filter: blur(24px) saturate(140%);
+  border: 1px solid rgba(255, 255, 255, 0.45);
+  box-shadow: 
+    0 4px 30px rgba(0, 0, 0, 0.02),
+    inset 0 1px 1px rgba(255, 255, 255, 0.5);
+}
+
+.glass-panel-hover {
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.glass-panel-hover:hover {
+  background: rgba(255, 255, 255, 0.45);
+  border-color: rgba(255, 255, 255, 0.6);
+  box-shadow: 
+    0 10px 40px rgba(0, 0, 0, 0.04),
+    inset 0 1px 2px rgba(255, 255, 255, 0.6);
+}
+
+.glass-card-subtle {
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+}
+
+/* Text glow effects */
+.text-glow-primary {
+  text-shadow: 0 0 20px rgba(79, 140, 255, 0.25);
+}
+
+.text-glow-secondary {
+  text-shadow: 0 0 20px rgba(124, 77, 255, 0.25);
+}
+
+/* Hide scrollbar for clean view where needed */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* Print styles for perfect PDF export of Resume */
+@media print {
+  html, body {
+    background: white !important;
+    color: #1e293b !important;
+    font-family: "Inter", sans-serif !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+  
+  /* Hide every single element except our special modal container */
+  #root > div:not(.printable-resume-container),
+  #portfolio-canvas > div:not(.printable-resume-container),
+  header, footer, section:not(.printable-resume-container) {
+    display: none !important;
+  }
+  
+  /* Ensure the printable container fits perfectly as a single page */
+  .printable-resume-container {
+    display: block !important;
+    position: absolute !important;
+    left: 0 !important;
+    top: 0 !important;
+    width: 100% !important;
+    min-height: 100% !important;
+    background: white !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    z-index: 999999 !important;
+    box-shadow: none !important;
+    border: none !important;
+  }
+  
+  /* Hide close and print action buttons during print */
+  .no-print {
+    display: none !important;
+  }
+}
+

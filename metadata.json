@@ -1,0 +1,8 @@
+{
+  "name": "natraj portfolio",
+  "description": "An ultra-modern liquid glass and aurora-styled software developer portfolio inspired by Apple visionOS and modern digital products.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
