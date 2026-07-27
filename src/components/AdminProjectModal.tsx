@@ -718,6 +718,45 @@ export default function AdminProjectModal({
                   <span>Projects Exhibition ({projects.length})</span>
                 </button>
 
+                {/* 2. Profile & Bio Tab */}
+                <button
+                  onClick={() => setMainTab('profile')}
+                  className={`flex items-center gap-2 px-4 py-2.5 rounded-t-2xl text-xs font-bold transition border-b-2 cursor-pointer whitespace-nowrap ${
+                    mainTab === 'profile'
+                      ? 'border-[#4F8CFF] text-[#4F8CFF] bg-blue-50/40'
+                      : 'border-transparent text-slate-500 hover:text-slate-800 hover:bg-slate-50'
+                  }`}
+                >
+                  <User className="w-4 h-4" />
+                  <span>Profile & Bio</span>
+                </button>
+
+                {/* 3. Skills & Stack Tab */}
+                <button
+                  onClick={() => setMainTab('skills')}
+                  className={`flex items-center gap-2 px-4 py-2.5 rounded-t-2xl text-xs font-bold transition border-b-2 cursor-pointer whitespace-nowrap ${
+                    mainTab === 'skills'
+                      ? 'border-[#4F8CFF] text-[#4F8CFF] bg-blue-50/40'
+                      : 'border-transparent text-slate-500 hover:text-slate-800 hover:bg-slate-50'
+                  }`}
+                >
+                  <Code2 className="w-4 h-4" />
+                  <span>Skills & Stack</span>
+                </button>
+
+                {/* 4. Experience & Timeline Tab */}
+                <button
+                  onClick={() => setMainTab('experience')}
+                  className={`flex items-center gap-2 px-4 py-2.5 rounded-t-2xl text-xs font-bold transition border-b-2 cursor-pointer whitespace-nowrap ${
+                    mainTab === 'experience'
+                      ? 'border-[#4F8CFF] text-[#4F8CFF] bg-blue-50/40'
+                      : 'border-transparent text-slate-500 hover:text-slate-800 hover:bg-slate-50'
+                  }`}
+                >
+                  <Briefcase className="w-4 h-4" />
+                  <span>Experience & Journey</span>
+                </button>
+
               </div>
 
               {/* Workspace Content View */}
