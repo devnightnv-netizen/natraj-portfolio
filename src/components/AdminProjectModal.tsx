@@ -266,7 +266,7 @@ export default function AdminProjectModal({
         setUsernameInput('');
         setPasswordInput('');
       } else {
-        setLoginError('Invalid admin credentials. Username: admin | Password: admin123@');
+        setLoginError('Incorrect username or password. Please try again.');
       }
       setIsLoggingIn(false);
     }, 400);
@@ -676,6 +676,12 @@ export default function AdminProjectModal({
                     )}
                   </button>
                 </form>
+
+                <div className="pt-2 border-t border-slate-100 text-center">
+                  <p className="text-[11px] font-medium text-slate-500">
+                    Default credentials: <code className="px-1.5 py-0.5 rounded bg-slate-100 text-slate-700 font-mono text-[10px]">admin</code> / <code className="px-1.5 py-0.5 rounded bg-slate-100 text-slate-700 font-mono text-[10px]">admin123@</code>
+                  </p>
+                </div>
 
               </div>
             </div>
